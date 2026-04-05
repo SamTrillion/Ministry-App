@@ -34,7 +34,13 @@ import {
   Instagram,
   Youtube,
   Globe,
-  Loader
+  Loader,
+  MapPin,
+  Clock,
+  Quote,
+  Target,
+  Eye,
+  ChevronLeft
 } from 'lucide-react';
 
 /**
@@ -48,13 +54,13 @@ const USER_PROFILE = {
   nextSession: "Thursday, 4:00 PM"
 };
 
-// Updated Resources with Specific Bible Images
+// Resources with Bible Images
 const MINISTRY_RESOURCES = [
-  { id: 'b1', title: "Complete Holy Bible", type: "Scripture", category: "Free", image: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?auto=format&fit=crop&q=80&w=300&h=400", locked: false }, // Explicit Bible Image
-  { id: 'b2', title: "Bible Through the Year", type: "Plan", category: "Free", image: "https://images.unsplash.com/photo-1507434965515-61970f2bd7c6?auto=format&fit=crop&q=80&w=300&h=400", locked: false },
-  { id: 'b3', title: "Ekpere na Abu", type: "Hymnal", category: "Free", image: "https://images.unsplash.com/photo-1510936111840-65e151ad71bb?auto=format&fit=crop&q=80&w=300&h=400", locked: false },
-  { id: 'b4', title: "Igbo & English Liturgy", type: "Liturgy", category: "Free", image: "https://images.unsplash.com/photo-1542044806-53c83226c6d0?auto=format&fit=crop&q=80&w=300&h=400", locked: false },
-  { id: 'b5', title: "Ancient & Modern (A&M)", type: "Hymnal", category: "Premium", image: "https://images.unsplash.com/photo-1529156342813-360e86b20894?auto=format&fit=crop&q=80&w=300&h=400", locked: true, note: "Token Donation" },
+  { id: 'b1', title: "Complete Holy Bible", type: "Scripture", category: "Free", image: "https://plus.unsplash.com/premium_photo-1725075087236-e32a71552098?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", locked: false }, // Explicit Bible Image
+  { id: 'b2', title: "Bible Through the Year", type: "Plan", category: "Free", image: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?auto=format&fit=crop&q=80&w=300&h=400", locked: false },
+  { id: 'b3', title: "Ekpere na Abu", type: "Hymnal", category: "Free", image: "https://play-lh.googleusercontent.com/4gZEZnlkc5hCNdDHo61F4dJTO-iWUXDbXpeiV9GfQLslRckKhu6DMD-dIckYOXDLtzk", locked: false },
+  { id: 'b4', title: "Igbo & English Liturgy", type: "Liturgy", category: "Free", image: "https://images.unsplash.com/photo-1775247022803-fd16733e175c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxOHx8fGVufDB8fHx8fA%3D%3D", locked: false },
+  { id: 'b5', title: "Ancient & Modern (A&M)", type: "Hymnal", category: "Premium", image: "https://images.unsplash.com/photo-1536777525605-e146b6cef617?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", locked: true, note: "Token Donation" },
   { id: 1, title: "The Art of Prayer", type: "Book", category: "Spiritual", image: "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&q=80&w=300&h=400", locked: true },
   { id: 2, title: "Kingdom Economics", type: "Video", category: "Business", image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=300&h=200", locked: true },
 ];
@@ -64,7 +70,7 @@ const COMMUNITY_POSTS = [
   { id: 2, author: "Ven. Dr. Moses Omeke", role: "Admin", content: "Remember, your workspace is also your altar. Honor God in your deals today.", likes: 156, comments: 42, time: "5h ago" },
 ];
 
-// Specific Home Content for Sanctury Page
+// Home Content for Sanctury Page
 const HOME_CONTENT = [
   { id: 1, title: "Walking in Divine Authority", type: "Sermon", image: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&q=80&w=400&h=250" },
   { id: 2, title: "Understanding the Scriptures", type: "Bible Study", image: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?auto=format&fit=crop&q=80&w=400&h=250" }, // Bible Image
@@ -131,17 +137,51 @@ const ActionModal = ({ isOpen, onClose, title, message, actionLabel }) => {
 };
 
 /**
+ * COMPONENT: Futuristic Profile Modal
+ */
+const ProfileModal = ({ isOpen, onClose, user }) => {
+  if (!isOpen || !user) return null;
+  
+  return (
+    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose}>
+      <div className="bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_0_50px_rgba(30,58,138,0.4)] rounded-[2rem] max-w-sm w-full p-8 transform scale-100 animate-in zoom-in-95 duration-300 relative text-center" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 p-2 text-white/70 hover:text-white bg-white/5 hover:bg-white/20 rounded-full transition-colors"><X size={20} /></button>
+        
+        <div className="relative inline-block mb-6 mt-4">
+           <div className="absolute inset-0 bg-blue-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
+           <img src={user.avatar} className="relative w-32 h-32 rounded-full object-cover border-4 border-white/40 shadow-2xl" alt="Profile" />
+        </div>
+        
+        <h3 className="text-3xl font-serif font-bold text-white mb-1">{user.name}</h3>
+        
+        <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 font-bold tracking-widest uppercase text-xs mb-8 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+          {user.tier} Member
+        </div>
+        
+        <div className="bg-black/20 rounded-2xl p-5 border border-white/10 backdrop-blur-sm text-left shadow-inner">
+           <p className="text-white/60 text-[10px] uppercase tracking-widest mb-1 font-bold">Next Live Session</p>
+           <p className="text-white font-medium flex items-center"><Calendar size={16} className="mr-2 text-blue-400" /> {user.nextSession}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/**
  * MAIN APP COMPONENT
  */
 export default function App() {
   const [currentView, setCurrentView] = useState('landing');
+  const [landingView, setLandingView] = useState('home');
   const [activeTab, setActiveTab] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3);
   const [user, setUser] = useState(null);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   // Modal State
   const [modalConfig, setModalConfig] = useState({ isOpen: false, title: '', message: '', actionLabel: '' });
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const handleLogin = () => {
     setUser(USER_PROFILE);
@@ -173,73 +213,84 @@ export default function App() {
         <nav className="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-20 items-center">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setLandingView('home')}>
                 <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center">
                   <Cross className="text-amber-400" size={24} />
                 </div>
-                <span className="font-serif text-2xl font-bold text-blue-900 tracking-tight">Covenant<span className="text-amber-600">Path</span></span>
+                <div className="flex flex-col justify-center">
+                  <span className="text-[25px] font-extrabold text-blue-900 tracking-[0.2em] leading-none mb-0.5">DMO</span>
+                  <span className="font-serif text-2xl font-bold text-blue-900 tracking-tight leading-none">Covenant<span className="text-amber-600">Path</span></span>
+                </div>
               </div>
               <div className="hidden md:flex space-x-8">
-                <a href="#" className="text-slate-600 hover:text-blue-900 font-medium">About</a>
-                <a href="#" className="text-slate-600 hover:text-blue-900 font-medium">Testimonies</a>
-                <a href="#" className="text-slate-600 hover:text-blue-900 font-medium">Events</a>
+                <button onClick={() => setLandingView('home')} className={`font-medium transition-colors ${landingView === 'home' ? 'text-blue-900' : 'text-slate-600 hover:text-blue-900'}`}>Home</button>
+                <button onClick={() => setLandingView('about')} className={`font-medium transition-colors ${landingView === 'about' ? 'text-blue-900' : 'text-slate-600 hover:text-blue-900'}`}>About</button>
+                <button onClick={() => setLandingView('testimonies')} className={`font-medium transition-colors ${landingView === 'testimonies' ? 'text-blue-900' : 'text-slate-600 hover:text-blue-900'}`}>Testimonies</button>
+                <button onClick={() => setLandingView('events')} className={`font-medium transition-colors ${landingView === 'events' ? 'text-blue-900' : 'text-slate-600 hover:text-blue-900'}`}>Events</button>
               </div>
               <Button onClick={handleLogin} variant="primary">Member Login</Button>
             </div>
           </div>
         </nav>
 
-        <div className="relative pt-20 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-          <div className="absolute inset-0 z-0 opacity-10">
-             <div className="absolute right-0 top-0 w-1/2 h-full bg-blue-900 skew-x-12 transform origin-top-right"></div>
-          </div>
-          
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
-              <div className="mb-12 lg:mb-0">
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-800 text-sm font-semibold mb-6 border border-blue-100">
-                  <Star size={16} className="mr-2 text-amber-500" />
-                  Mentorship with Ven. Dr. Moses Omeke
-                </div>
-                <h1 className="text-5xl lg:text-7xl font-serif font-bold text-slate-900 leading-tight mb-6">
-                  Build Your Life on <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-600">Solid Ground</span>
-                </h1>
-                <p className="text-xl text-slate-600 mb-8 max-w-lg leading-relaxed">
-                  Join a global community guided by faith. Access exclusive teachings, 1-on-1 mentorship, and business strategies rooted in Kingdom principles.
-                </p>
-                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                  <Button onClick={handleLogin} variant="primary" icon={ChevronRight}>Start Your Journey</Button>
-                  <Button onClick={() => {}} variant="outline" icon={Play}>Watch Introduction</Button>
-                </div>
-                <div className="mt-10 flex items-center space-x-6 text-sm text-slate-500">
-                  <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> 50k+ Members</div>
-                  <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Daily Devotionals</div>
-                  <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Live Sessions</div>
-                </div>
+        <div className="pt-20">
+          {landingView === 'home' && (
+            <div className="relative pt-16 pb-16 md:pt-24 md:pb-24 overflow-hidden animate-in fade-in duration-500">
+              <div className="absolute inset-0 z-0 opacity-10">
+                 <div className="absolute right-0 top-0 w-1/2 h-full bg-blue-900 skew-x-12 transform origin-top-right"></div>
               </div>
-              <div className="relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                  alt="Mentorship Session" 
-                  className="rounded-2xl shadow-2xl transform md:rotate-2 hover:rotate-0 transition-all duration-500 border-8 border-white"
-                />
-                <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl border border-slate-100 max-w-xs hidden md:block">
-                  <div className="flex items-center mb-3">
-                    <div className="flex -space-x-2">
-                      {[1,2,3].map(i => (
-                        <div key={i} className="w-8 h-8 rounded-full bg-slate-200 border-2 border-white overflow-hidden">
-                           <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`} alt="user" />
-                        </div>
-                      ))}
+              
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+                  <div className="mb-12 lg:mb-0">
+                    <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-800 text-sm font-semibold mb-6 border border-blue-100">
+                      <Star size={16} className="mr-2 text-amber-500" />
+                      Mentorship with Ven. Dr. Moses Omeke
                     </div>
-                    <span className="ml-3 text-sm font-bold text-slate-700">+2,400 joined this week</span>
+                    <h1 className="text-5xl lg:text-7xl font-serif font-bold text-slate-900 leading-tight mb-6">
+                      Build Your Life on<br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-600">a Sure Foundation</span>
+                    </h1>
+                    <p className="text-xl text-slate-600 mb-8 max-w-lg leading-relaxed">
+                      Join a global community guided by faith. Access exclusive teachings, 1-on-1 mentorship, and strategies rooted in Kingdom principles.
+                    </p>
+                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                      <Button onClick={handleLogin} variant="primary" icon={ChevronRight}>Start Your Journey</Button>
+                      <Button onClick={() => {}} variant="outline" icon={Play}>Watch Introduction</Button>
+                    </div>
+                    <div className="mt-10 flex items-center space-x-6 text-sm text-slate-500">
+                      <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> 50k+ Members</div>
+                      <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Daily Devotionals</div>
+                      <div className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Live Sessions</div>
+                    </div>
                   </div>
-                  <p className="text-xs text-slate-500 italic">"This platform transformed my business and my prayer life."</p>
+                  <div className="relative">
+                    <img 
+                      src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                      alt="Mentorship Session" 
+                      className="rounded-2xl shadow-2xl transform md:rotate-2 hover:rotate-0 transition-all duration-500 border-8 border-white"
+                    />
+                    <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl border border-slate-100 max-w-xs hidden md:block">
+                      <div className="flex items-center mb-3">
+                        <div className="flex -space-x-2">
+                          {[1,2,3].map(i => (
+                            <div key={i} className="w-8 h-8 rounded-full bg-slate-200 border-2 border-white overflow-hidden">
+                               <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`} alt="user" />
+                            </div>
+                          ))}
+                        </div>
+                        <span className="ml-3 text-sm font-bold text-slate-700">+2,400 joined this week</span>
+                      </div>
+                      <p className="text-xs text-slate-500 italic">"This platform transformed my business and my prayer life."</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
+          {landingView === 'about' && <LandingAbout />}
+          {landingView === 'testimonies' && <LandingTestimonies openModal={openModal} />}
+          {landingView === 'events' && <LandingEvents />}
         </div>
       </div>
     );
@@ -254,32 +305,46 @@ export default function App() {
         message={modalConfig.message} 
         actionLabel={modalConfig.actionLabel} 
       />
+      <ProfileModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)} 
+        user={user} 
+      />
 
-      <aside className="hidden md:flex flex-col w-72 bg-blue-950 text-white shadow-xl z-20">
-        <div className="p-6 flex items-center space-x-3 border-b border-blue-900/50">
-          <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center">
-            <Cross className="text-blue-950" size={20} />
+      <aside className={`hidden md:flex flex-col bg-blue-950 text-white shadow-xl z-20 transition-all duration-500 ease-in-out ${isSidebarExpanded ? 'w-72' : 'w-24 shrink-0'}`}>
+        <div className="p-6 flex items-center justify-between border-b border-blue-900/50 min-h-[5rem]">
+          <div className={`flex items-center transition-all duration-500 overflow-hidden ${isSidebarExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
+            <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center mr-3 shrink-0">
+              <Cross className="text-blue-950" size={20} />
+            </div>
+            <div className="flex flex-col justify-center whitespace-nowrap">
+               <span className="text-[15px] font-bold text-amber-400 tracking-[0.2em] leading-none mb-0.5">DMO</span>
+               <span className="font-serif text-xl font-bold tracking-wide leading-none">Covenant<span className="text-amber-400">Path</span></span>
+            </div>
           </div>
-          <span className="font-serif text-xl font-bold tracking-wide">Covenant<span className="text-amber-400">Path</span></span>
+          <button onClick={() => setIsSidebarExpanded(!isSidebarExpanded)} className="p-2 rounded-lg bg-blue-900/50 hover:bg-blue-800 text-blue-200 hover:text-white transition-colors shrink-0">
+            <ChevronLeft size={20} className={`transform transition-transform duration-500 ${!isSidebarExpanded ? 'rotate-180' : ''}`} />
+          </button>
         </div>
 
-        <div className="flex-1 py-6 space-y-2 overflow-y-auto">
-          <NavButton active={activeTab === 'home'} onClick={() => setActiveTab('home')} icon={BookOpen}>Sanctuary (Home)</NavButton>
-          <NavButton active={activeTab === 'mentorship'} onClick={() => setActiveTab('mentorship')} icon={Users}>Mentorship & School</NavButton>
-          <NavButton active={activeTab === 'community'} onClick={() => setActiveTab('community')} icon={MessageCircle}>Koinonia (Fellowship)</NavButton>
-          <NavButton active={activeTab === 'resources'} onClick={() => setActiveTab('resources')} icon={Briefcase}>The Vault (Resources)</NavButton>
-          <NavButton active={activeTab === 'giving'} onClick={() => setActiveTab('giving')} icon={Heart}>Partnership & Giving</NavButton>
+        <div className="flex-1 py-6 space-y-2 overflow-y-auto overflow-x-hidden">
+          <NavButton active={activeTab === 'home'} onClick={() => setActiveTab('home')} icon={BookOpen} isExpanded={isSidebarExpanded}>Sanctuary (Home)</NavButton>
+          <NavButton active={activeTab === 'community'} onClick={() => setActiveTab('community')} icon={MessageCircle} isExpanded={isSidebarExpanded}>Fellowship</NavButton>
+          <NavButton active={activeTab === 'mentorship'} onClick={() => setActiveTab('mentorship')} icon={Users} isExpanded={isSidebarExpanded}>Mentorship</NavButton>
+          <NavButton active={activeTab === 'resources'} onClick={() => setActiveTab('resources')} icon={Briefcase} isExpanded={isSidebarExpanded}>Library</NavButton>
+          <NavButton active={activeTab === 'giving'} onClick={() => setActiveTab('giving')} icon={Heart} isExpanded={isSidebarExpanded}>Partnership</NavButton>
         </div>
 
-        <div className="p-4 border-t border-blue-900/50">
-          <div className="flex space-x-4 justify-center mb-6 opacity-60">
+        <div className="p-4 border-t border-blue-900/50 overflow-hidden">
+          <div className={`flex space-x-4 justify-center mb-6 opacity-60 transition-all duration-500 ${isSidebarExpanded ? 'flex' : 'hidden'}`}>
              <Facebook size={18} className="cursor-pointer hover:text-amber-400" />
              <Instagram size={18} className="cursor-pointer hover:text-amber-400" />
              <Youtube size={18} className="cursor-pointer hover:text-amber-400" />
              <Globe size={18} className="cursor-pointer hover:text-amber-400" />
           </div>
-          <button onClick={() => setCurrentView('landing')} className="flex items-center text-blue-300 hover:text-white transition-colors text-sm font-medium w-full">
-            <LogOut size={16} className="mr-2" /> Sign Out
+          <button onClick={() => setCurrentView('landing')} className={`flex items-center text-blue-300 hover:text-white transition-colors text-sm font-medium w-full ${isSidebarExpanded ? 'justify-start px-2' : 'justify-center'}`}>
+            <LogOut size={16} className={isSidebarExpanded ? 'mr-2 shrink-0' : 'shrink-0'} /> 
+            <span className={`whitespace-nowrap transition-all duration-300 ${isSidebarExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}`}>Sign Out</span>
           </button>
         </div>
       </aside>
@@ -287,7 +352,10 @@ export default function App() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 bg-blue-950/95 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
            <div className="flex justify-between items-center mb-8">
-             <span className="font-serif text-2xl font-bold text-white">Covenant<span className="text-amber-400">Path</span></span>
+             <div className="flex flex-col justify-center">
+               <span className="text-[10px] font-bold text-amber-400 tracking-[0.2em] leading-none mb-0.5">DMO</span>
+               <span className="font-serif text-2xl font-bold text-white leading-none">Covenant<span className="text-amber-400">Path</span></span>
+             </div>
              <button onClick={() => setIsMobileMenuOpen(false)} className="text-white"><X size={28} /></button>
            </div>
            <div className="space-y-4">
@@ -320,12 +388,15 @@ export default function App() {
               <Bell size={20} />
               {notificationCount > 0 && <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>}
             </button>
-            <div className="flex items-center space-x-3 pl-4 border-l border-slate-200">
+            <div 
+              className="flex items-center space-x-3 pl-4 border-l border-slate-200 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors"
+              onClick={() => setIsProfileModalOpen(true)}
+            >
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-bold text-slate-800">{user?.name}</p>
                 <p className="text-xs text-slate-500">{user?.tier} Member</p>
               </div>
-              <img src={user?.avatar} alt="Profile" className="w-9 h-9 rounded-full border border-slate-200 object-cover" />
+              <img src={user?.avatar} alt="Profile" className="w-9 h-9 rounded-full border border-slate-200 object-cover shadow-sm" />
             </div>
           </div>
         </header>
@@ -340,18 +411,20 @@ export default function App() {
   );
 }
 
-function NavButton({ active, onClick, icon: Icon, children }) {
+function NavButton({ active, onClick, icon: Icon, isExpanded = true, children }) {
   return (
     <button 
       onClick={onClick}
-      className={`w-full flex items-center px-6 py-3.5 text-sm font-medium transition-all duration-200 border-l-4
+      className={`w-full flex items-center py-3.5 text-sm font-medium transition-all duration-300 border-l-4
         ${active 
           ? 'bg-blue-900 border-amber-500 text-white' 
           : 'border-transparent text-blue-200 hover:bg-blue-900 hover:text-white'
-        }`}
+        } ${isExpanded ? 'px-6' : 'px-0 justify-center'}`}
     >
-      <Icon size={20} className={`mr-3 ${active ? 'text-amber-500' : 'text-blue-400'}`} />
-      {children}
+      <Icon size={20} className={`${isExpanded ? 'mr-3' : 'mr-0'} shrink-0 transition-all duration-300 ${active ? 'text-amber-500' : 'text-blue-400'}`} />
+      <span className={`whitespace-nowrap transition-all duration-300 ${isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0 overflow-hidden'}`}>
+        {children}
+      </span>
     </button>
   );
 }
@@ -425,7 +498,7 @@ const HomeView = ({ openModal }) => (
 );
 
 /**
- * UPDATED: MENTORSHIP & SCHOOL HUB
+ * MENTORSHIP & SCHOOL HUB
  */
 const MentorshipHub = ({ openModal }) => {
   const [activeSub, setActiveSub] = useState('platform');
@@ -534,7 +607,7 @@ const MentorshipHub = ({ openModal }) => {
 };
 
 /**
- * UPDATED: COMMUNITY HUB (KOINONIA)
+ * COMMUNITY HUB (FELLOWSHIP)
  */
 const CommunityHub = ({ openModal }) => (
   <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-500">
@@ -609,13 +682,13 @@ const CommunityHub = ({ openModal }) => (
 );
 
 /**
- * UPDATED: RESOURCES VIEW
+ * RESOURCES VIEW
  */
 const ResourcesView = ({ openModal }) => (
   <div className="space-y-6 animate-in fade-in duration-500">
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h2 className="text-2xl font-serif font-bold text-slate-900">The Vault</h2>
+        <h2 className="text-2xl font-serif font-bold text-slate-900">Resources</h2>
         <p className="text-slate-500">Ministry Resources, Bibles, and Masterclasses.</p>
       </div>
       <div className="flex space-x-2 overflow-x-auto pb-2">
@@ -658,11 +731,31 @@ const ResourcesView = ({ openModal }) => (
         </div>
       ))}
     </div>
+
+    {/* Integrated Library & Store Section */}
+    <div className="pt-8 mt-8 border-t border-slate-200">
+      <div className="mb-6">
+        <h2 className="text-2xl font-serif font-bold text-slate-900">Library & Store</h2>
+        <p className="text-slate-500">Purchase books and premium materials by Ven. Dr. Moses Omeke.</p>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+         {[1,2,3,4].map(i => (
+            <Card key={i} className="p-4 flex flex-col h-full">
+               <div className="aspect-[2/3] bg-slate-200 mb-3 rounded shadow-inner overflow-hidden">
+                  <img src={`https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=200&h=300&text=Book+${i}`} className="w-full h-full object-cover" />
+               </div>
+               <h4 className="font-bold text-sm text-slate-800 line-clamp-1 flex-1">The Power of Vision</h4>
+               <p className="text-xs text-slate-500 mb-2">Ven. Dr. Moses Omeke</p>
+               <Button variant="outline" className="w-full text-xs h-auto py-1.5" onClick={() => openModal('Purchase Book', 'Confirm purchase: The Power of Vision ($9.99)', 'Buy Now')}>$9.99 - Buy</Button>
+            </Card>
+         ))}
+      </div>
+    </div>
   </div>
 );
 
 /**
- * UPDATED: PARTNERSHIP & GIVING VIEW
+ * PARTNERSHIP & GIVING VIEW
  */
 const PartnershipView = ({ openModal }) => (
   <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500">
@@ -742,3 +835,175 @@ const PartnershipView = ({ openModal }) => (
      </div>
   </div>
 );
+
+/**
+ * NEW COMPONENTS FOR LANDING PAGES
+ */
+
+const LandingAbout = () => (
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl lg:text-5xl font-serif font-bold text-slate-900 mb-6">About DMO CovenantPath</h2>
+      <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">A global ministry dedicated to raising marketplace apostles and disciples through the undiluted word of faith.</p>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-8 mb-20">
+      <Card className="p-10 border-t-4 border-t-amber-500 shadow-lg hover:shadow-xl transition-shadow">
+        <Target size={48} className="text-amber-500 mb-6" />
+        <h3 className="text-3xl font-serif font-bold text-slate-800 mb-4">Our Mission</h3>
+        <p className="text-lg text-slate-600 leading-relaxed">
+          To empower individuals to discover their divine purpose, equip them with Kingdom principles, and deploy them as agents of transformation in their families, workplaces, and communities.
+        </p>
+      </Card>
+      <Card className="p-10 border-t-4 border-t-blue-600 shadow-lg hover:shadow-xl transition-shadow">
+        <Eye size={48} className="text-blue-600 mb-6" />
+        <h3 className="text-3xl font-serif font-bold text-slate-800 mb-4">Our Vision</h3>
+        <p className="text-lg text-slate-600 leading-relaxed">
+          To see a generation walking confidently on the Covenant Path, experiencing the fullness of God's blessings, and radiating Christ's love in every sphere of influence across the globe.
+        </p>
+      </Card>
+    </div>
+
+    <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+      <div className="md:flex">
+        <div className="md:w-2/5 h-80 md:h-auto bg-slate-200 relative">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800" alt="Ven. Dr. Moses Omeke" className="w-full h-full object-cover" />
+        </div>
+        <div className="md:w-3/5 p-10 md:p-16 flex flex-col justify-center">
+          <div className="text-amber-600 font-bold tracking-wider text-sm mb-3 uppercase">The Founder</div>
+          <h3 className="text-4xl font-serif font-bold text-slate-900 mb-6">Ven. Dr. Moses Omeke</h3>
+          <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+            Ven. Dr. Moses Omeke is a visionary leader, dynamic teacher, and passionate mentor with over two decades of ministry experience. He is dedicated to bridging the gap between spiritual depth and practical life success.
+          </p>
+          <p className="text-lg text-slate-600 leading-relaxed mb-8">
+            Through DMO CovenantPath, he hosts transformative mentorship programs, the acclaimed School of Ministry, and provides daily spiritual nourishment to thousands globally. His unique calling focuses on raising "Marketplace Apostles"—believers who thrive in business and career while maintaining uncompromised faith.
+          </p>
+          <div className="flex space-x-4">
+             <Button variant="outline">Read Full Biography</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const LandingTestimonies = ({ openModal }) => {
+  const testimonies = [
+    { name: "Sarah Jenkins", role: "Entrepreneur", text: "The mentorship sessions completely transformed my approach to business. I learned how to integrate my faith with my daily operations, and my revenue has doubled while my peace of mind has increased.", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150" },
+    { name: "Michael Obi", role: "Student", text: "DMO CovenantPath gave me the spiritual grounding I needed. The daily devotionals are the perfect start to my day, and the community here is incredibly supportive.", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150" },
+    { name: "Grace Chukwu", role: "Ministry Leader", text: "Attending the School of Ministry leveled up my leadership skills. Ven. Dr. Omeke teaches with such clarity and profound wisdom. It's a must for anyone called to serve.", image: "https://images.unsplash.com/photo-1531123897727-8f129e1bfa8ea?auto=format&fit=crop&q=80&w=150" },
+    { name: "David Anya", role: "Marketplace Apostle", text: "I used to think my career and ministry were separate. The teachings here showed me my office is my pulpit. My entire perspective on wealth and Kingdom advancement changed forever.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" },
+    { name: "Esther Williams", role: "Teacher", text: "Finding this platform was an answer to prayer. The free Bible reading plans and liturgy resources have revitalized my personal altar. I am deeply grateful.", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150" }
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-slate-200 pb-8">
+        <div className="mb-6 md:mb-0 max-w-2xl">
+          <h2 className="text-4xl lg:text-5xl font-serif font-bold text-slate-900 mb-4">Stories of Transformation</h2>
+          <p className="text-xl text-slate-600">Read how the Covenant Path is impacting lives worldwide. Your testimony could be the key to someone else's breakthrough.</p>
+        </div>
+        <Button variant="primary" icon={MessageCircle} onClick={() => openModal('Share Testimony', 'Your testimony form is ready. Let the world hear your story!', 'Submit Testimony')} className="shrink-0">
+          Share Your Testimony
+        </Button>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {testimonies.map((t, i) => (
+          <Card key={i} className="p-8 relative hover:shadow-lg transition-shadow bg-white">
+            <Quote size={48} className="text-blue-50 absolute top-6 right-6" />
+            <p className="text-slate-700 italic mb-10 relative z-10 leading-relaxed text-lg">"{t.text}"</p>
+            <div className="flex items-center mt-auto border-t border-slate-100 pt-6">
+              <img src={t.image} alt={t.name} className="w-14 h-14 rounded-full object-cover border-4 border-blue-50 mr-4" />
+              <div>
+                <h4 className="font-bold text-slate-900">{t.name}</h4>
+                <p className="text-sm text-amber-600 font-medium">{t.role}</p>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const LandingEvents = () => {
+  const [activeTab, setActiveTab] = useState('upcoming');
+
+  const events = {
+    upcoming: [
+      { title: "Annual Marketplace Apostles Conference", date: "Oct 15 - 17, 2024", time: "9:00 AM Daily", location: "Main Auditorium & Online", type: "Conference" },
+      { title: "Monthly Miracle Service", date: "First Friday of Every Month", time: "10:00 PM - 4:00 AM", location: "Prayer City", type: "Service" },
+      { title: "Kingdom Finance Masterclass", date: "Nov 12, 2024", time: "6:00 PM", location: "Zoom (Live Room)", type: "Masterclass" }
+    ],
+    past: [
+      { title: "Mid-Year Fasting Retreat", date: "July 2024", time: "Replay Available", location: "Online Portal", type: "Retreat" },
+      { title: "Youth Leadership Summit", date: "June 2024", time: "Replay Available", location: "Main Auditorium", type: "Summit" }
+    ],
+    announcements: [
+      { title: "New Course Added to School of Ministry", date: "Just Now", text: "Enrollment is now open for 'Advanced Spiritual Warfare'. Log into your dashboard to begin taking the course." },
+      { title: "Partnership Drive 2024", date: "Ongoing", text: "Join our Inner Circle to help fund rural missions this quarter. Together we can take the gospel to the unreached." },
+      { title: "App Update: New Liturgy Versions", date: "Yesterday", text: "The Igbo and English Liturgy sections in The Vault have been updated with audio reading capabilities." }
+    ]
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl lg:text-5xl font-serif font-bold text-slate-900 mb-6">Ministry Events & News</h2>
+        <p className="text-xl text-slate-600 max-w-2xl mx-auto">Stay connected with our latest programs, conferences, and important announcements from DMO CovenantPath.</p>
+      </div>
+
+      <div className="flex justify-center space-x-2 md:space-x-8 mb-12 border-b border-slate-200 pb-2 overflow-x-auto">
+         <button onClick={() => setActiveTab('announcements')} className={`pb-4 px-4 text-base md:text-lg font-bold transition-all whitespace-nowrap ${activeTab === 'announcements' ? 'text-blue-900 border-b-4 border-blue-900' : 'text-slate-400 hover:text-slate-600'}`}>Announcements</button>
+         <button onClick={() => setActiveTab('upcoming')} className={`pb-4 px-4 text-base md:text-lg font-bold transition-all whitespace-nowrap ${activeTab === 'upcoming' ? 'text-blue-900 border-b-4 border-blue-900' : 'text-slate-400 hover:text-slate-600'}`}>Upcoming Events</button>
+         <button onClick={() => setActiveTab('past')} className={`pb-4 px-4 text-base md:text-lg font-bold transition-all whitespace-nowrap ${activeTab === 'past' ? 'text-blue-900 border-b-4 border-blue-900' : 'text-slate-400 hover:text-slate-600'}`}>Past Events</button>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8">
+        {activeTab === 'upcoming' && events.upcoming.map((ev, i) => (
+          <Card key={i} className="flex flex-col md:flex-row overflow-hidden border-l-4 border-l-blue-600 shadow-md hover:shadow-xl transition-shadow">
+            <div className="bg-blue-50 p-8 md:w-1/3 flex flex-col justify-center items-center text-center border-b md:border-b-0 md:border-r border-blue-100">
+               <Calendar size={40} className="text-blue-600 mb-3" />
+               <p className="font-bold text-blue-900">{ev.date}</p>
+            </div>
+            <div className="p-8 md:w-2/3 flex flex-col justify-center">
+               <span className="text-xs font-bold uppercase tracking-wider text-amber-600 mb-3 block">{ev.type}</span>
+               <h3 className="text-2xl font-bold text-slate-800 mb-4">{ev.title}</h3>
+               <div className="flex items-center text-slate-600 mb-2"><Clock size={18} className="mr-3 text-slate-400" /> {ev.time}</div>
+               <div className="flex items-center text-slate-600 mb-6"><MapPin size={18} className="mr-3 text-slate-400" /> {ev.location}</div>
+               <Button variant="outline" className="w-full">Register Now</Button>
+            </div>
+          </Card>
+        ))}
+
+        {activeTab === 'past' && events.past.map((ev, i) => (
+          <Card key={i} className="flex flex-col md:flex-row overflow-hidden bg-slate-50 opacity-90 hover:opacity-100 transition-opacity">
+            <div className="bg-slate-200 p-8 md:w-1/3 flex flex-col justify-center items-center text-center border-b md:border-b-0 md:border-r border-slate-300">
+               <Calendar size={40} className="text-slate-500 mb-3" />
+               <p className="font-bold text-slate-700">{ev.date}</p>
+            </div>
+            <div className="p-8 md:w-2/3 flex flex-col justify-center">
+               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 block">{ev.type}</span>
+               <h3 className="text-2xl font-bold text-slate-800 mb-4">{ev.title}</h3>
+               <div className="flex items-center text-slate-600 mb-2"><Clock size={18} className="mr-3 text-slate-400" /> {ev.time}</div>
+               <div className="flex items-center text-slate-600 mb-6"><MapPin size={18} className="mr-3 text-slate-400" /> {ev.location}</div>
+               <Button variant="ghost" className="w-full text-blue-700 bg-blue-100 hover:bg-blue-200">Watch Replay</Button>
+            </div>
+          </Card>
+        ))}
+
+        {activeTab === 'announcements' && events.announcements.map((ev, i) => (
+          <Card key={i} className="p-8 border-l-4 border-l-amber-500 shadow-sm hover:shadow-md transition-shadow">
+             <div className="flex items-start justify-between mb-6">
+               <div className="bg-amber-100 p-3 rounded-xl"><Bell size={28} className="text-amber-600" /></div>
+               <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full">{ev.date}</span>
+             </div>
+             <h3 className="text-2xl font-bold text-slate-800 mb-4">{ev.title}</h3>
+             <p className="text-lg text-slate-600 leading-relaxed">{ev.text}</p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};
